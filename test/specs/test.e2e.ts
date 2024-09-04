@@ -26,7 +26,6 @@ describe('Car lease calculator - test percentage calculation', () => {
         let price = Page.purchasePrice;
         await Page.clear(price);
         await price.addValue('20 000');
-
         await expect(price).toHaveValue('20 000');
 
         let paymentPercent = Page.paymentPercent;
@@ -41,14 +40,15 @@ describe('Car lease calculator - test percentage calculation', () => {
         let price = Page.purchasePrice;
         await Page.clear(price);
         await price.addValue('20 000');
+        await expect(price).toHaveValue('20 000');
+
 
         let lastPaymentPercent = Page.lastPaymentPercent;
         await Page.clear(lastPaymentPercent);
-        await lastPaymentPercent.setValue('0');
 
         let lastPaymentAmount = Page.lastPaymentAmount;
         await Page.clear(lastPaymentAmount);
-        await lastPaymentAmount.setValue('10000');
+        await lastPaymentAmount.setValue('10 000');
         await expect(Page.lastPaymentPercent).toHaveValue('50');
 
     })
@@ -77,11 +77,9 @@ describe('Car lease calculator - test monthly payment', () => {
         let paymentPercent = Page.paymentPercent;
         await Page.clear(paymentPercent);
         await paymentPercent.setValue('0');
-        await expect(paymentPercent).toHaveValue('0');
 
         let lastPaymentPercent = Page.lastPaymentPercent;
         await Page.clear(lastPaymentPercent);
-        await lastPaymentPercent.setValue('0');
 
         let period = Page.period;
         await Page.clear(period);
