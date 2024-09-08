@@ -1,35 +1,36 @@
-import { expect } from '@wdio/globals'
+import {expect} from '@wdio/globals'
 import Page from '../pageobjects/page.ts'
 
 
-describe('Car lease calculator - test percentage calculation', () => {
+before(async () => {
+    await Page.open();
+    await Page.cookieConsent();
+})
+
+
+describe('Car lease calculator - test percentage calculation ', () => {
     it('should calculate initial payment percentages correctly', async () => {
-        await Page.open()
-        await Page.cookieConsent();
 
         let price = Page.purchasePrice;
-        await Page.clear(price);
-        await price.addValue('10 000');
+        await Page.clearAndSet(price, '10000');
 
         await expect(price).toHaveValue('10 000');
 
         let paymentAmount = Page.paymentAmount;
-        await paymentAmount.setValue('2 000');
+        await Page.clearAndSet(paymentAmount, '2000');
         await expect(paymentAmount).toHaveValue('2 000');
         await expect(Page.paymentPercent).toHaveValue('20');
-
 
     })
 
     it('should calculate initial payment sum correctly', async () => {
 
         let price = Page.purchasePrice;
-        await Page.clear(price);
-        await price.addValue('20 000');
+        await Page.clearAndSet(price, '20000');
         await expect(price).toHaveValue('20 000');
 
         let paymentPercent = Page.paymentPercent;
-        await paymentPercent.setValue('10');
+        await Page.clearAndSet(paymentPercent, '10');
         await expect(paymentPercent).toHaveValue('10');
         await expect(Page.paymentAmount).toHaveValue('2 000');
 
@@ -38,52 +39,39 @@ describe('Car lease calculator - test percentage calculation', () => {
     it('should calculate last payment percentage correctly', async () => {
 
         let price = Page.purchasePrice;
-        await Page.clear(price);
-        await price.addValue('20 000');
+        await Page.clearAndSet(price, '20000');
         await expect(price).toHaveValue('20 000');
 
-
         let lastPaymentPercent = Page.lastPaymentPercent;
-        await Page.clear(lastPaymentPercent);
+        await Page.clearAndSet(lastPaymentPercent, '0');
 
-        let lastPaymentAmount = Page.lastPaymentAmount;
-        await Page.clear(lastPaymentAmount);
-        await lastPaymentAmount.setValue('10 000');
-        await expect(Page.lastPaymentPercent).toHaveValue('50');
-
+        await Page.clearAndSet(Page.lastPaymentAmount, '10000');
+        await expect(lastPaymentPercent).toHaveValue('50');
     })
 
     it('should calculate last payment amount correctly', async () => {
 
         let price = Page.purchasePrice;
-        await Page.clear(price);
-        await price.addValue('200 000');
+        await Page.clearAndSet(price, '200000');
 
-        let lastPaymentPercent = Page.lastPaymentPercent;
-        await Page.clear(lastPaymentPercent);
-        await lastPaymentPercent.setValue('25');
+        await Page.clearAndSet(Page.lastPaymentPercent, '25');
         await expect(Page.lastPaymentAmount).toHaveValue('50 000');
 
     })
 })
 
-describe('Car lease calculator - test monthly payment', () => {
+describe('Car lease calculator - test monthly payment ', () => {
     it('should calculate monthly payment correctly without initial payment', async () => {
 
         let price = Page.purchasePrice;
-        await Page.clear(price);
-        await price.addValue('20 000');
+        await Page.clearAndSet(price, '20000');
 
-        let paymentPercent = Page.paymentPercent;
-        await Page.clear(paymentPercent);
-        await paymentPercent.setValue('0');
+        await Page.clearAndSet(Page.paymentPercent, '0');
 
-        let lastPaymentPercent = Page.lastPaymentPercent;
-        await Page.clear(lastPaymentPercent);
+        await Page.clearAndSet(Page.lastPaymentPercent, '0');
 
         let period = Page.period;
-        await Page.clear(period);
-        await period.addValue('60');
+        await Page.clearAndSet(period, '60');
         await expect(period).toHaveValue('60');
 
         let payment = await Page.monthlyPayment.getText();
@@ -99,13 +87,9 @@ describe('Car lease calculator - test monthly payment', () => {
     it('should calculate monthly payment correctly with initial payment', async () => {
 
         let price = Page.purchasePrice;
-        await Page.clear(price);
-        await price.addValue('40 000');
+        await Page.clearAndSet(price, '40000');
 
-        let paymentPercent = Page.paymentPercent;
-        await Page.clear(paymentPercent);
-        await paymentPercent.setValue('10');
-        await expect(paymentPercent).toHaveValue('10');
+        await Page.clearAndSet(Page.paymentPercent, '10');
 
         let period = Page.period;
 

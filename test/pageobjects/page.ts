@@ -67,12 +67,13 @@ class Page {
 
     }
 
-    public async clear(selector : ChainablePromiseElement){
+    public async clearAndSet(selector : ChainablePromiseElement, inputString : string){
         // setValue did not clear input, chromedriver issue?
         await selector.doubleClick();
         await browser.keys([Key.Ctrl, 'a']);
         await browser.keys([Key.Ctrl]);
         await browser.keys([Key.Delete]);
+        await selector.addValue(inputString);
     }
 }
 
